@@ -1,0 +1,35 @@
+.Success {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    color: #5C9210;
+}
+
+
+.Success:first-of-type {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.Danger {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    color: #944317;
+}
+
+
+.Danger:first-of-type {
+    margin-left: 0;
+    padding-left: 0;
+}
