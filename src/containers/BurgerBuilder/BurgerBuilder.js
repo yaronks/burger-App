@@ -19,18 +19,19 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component{     
     state = {
-        ingredients: {
-            lettuce: 0,
-            tomato: 0,
-            cheese: 0,
-            meat: 0,
-        },
+        ingredients: null,
         totalPrice: 4,
         purchased: false,
         purchasable: false,
         loading: false,
     }
 
+    componentDidMount  () {
+        axios.get('https://yaron-burger.firebaseio.com/ingredients.json')
+        .then(response => {
+            this.setState({ingredients:response.data})
+        }) 
+    }
     updatePurchased = () => {
         this.setState({
             purchased: true
@@ -121,7 +122,7 @@ class BurgerBuilder extends Component{
         return (
             <Aux>
                 <Modal show={this.state.purchased} modalClosed={this.purchaseCancelled}>
-                    {!this.state.loading ? 
+                    {!this.state.loading && this.state.ingredients ? 
                     <OrderSummary 
                         ingredients={this.state.ingredients}
                         cancelled={this.purchaseCancelled}
@@ -129,14 +130,18 @@ class BurgerBuilder extends Component{
                         price={this.state.totalPrice.toFixed(2)}
                     /> : <Spinner />}
                 </Modal>
-                <Burger ingredients={this.state.ingredients}/>
-                <BuildControls 
-                    addIngred={this.addIngredientHandler} 
-                    deleteIngred={this.deleteIngredientHandler}
-                    purchasable={this.state.purchasable}
-                    ordered={this.updatePurchased}
-                    price={this.state.totalPrice}
-                />
+                {this.state.ingredients ?
+                <Aux>
+                    <Burger ingredients={this.state.ingredients}/>
+                    <BuildControls 
+                        addIngred={this.addIngredientHandler} 
+                        deleteIngred={this.deleteIngredientHandler}
+                        purchasable={this.state.purchasable}
+                        ordered={this.updatePurchased}
+                        price={this.state.totalPrice}
+                    />
+                </Aux> : <Spinner/>
+                    }
                 
             </Aux>
         )
